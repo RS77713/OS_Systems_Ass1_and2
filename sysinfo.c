@@ -10,8 +10,52 @@
 #include <sys/statvfs.h>
 #include <pwd.h>
 #include <errno.h>
+#include <ctype.h>
 
 #define CONFIG_FILENAME ".sysinfo.conf"
+
+void print_times() {
+    time_t now = time(NULL);
+    struct tm *lt = localtime(&now);
+    struct tm *utc = gmtime(&now);
+
+    char buf_local[64];
+    char buf_utc[64];
+
+    if (lt && strftime(buf_local, sizeof(buf_local), "%Y-%m-%d %H:%M:%S", lt)) {
+        printf("Local time:  %s\n", buf_local);
+    }
+    if (utc && strftime(buf_utc, sizeof(buf_utc), "%Y-%m-%d %H:%M:%S", utc)) {
+        printf("System time (UTC): %s\n", buf_utc);
+    }
+}
+
+void print_mount_points() {
+    FILE *f = fopen("/proc/mounts", "r");
+    if (!f) {
+        perror("fopen /proc/mounts");
+        return;
+    }
+
+    printf("\nMount points and space:\n");
+    printf("%-25s %-10s %18s %18s\n", "Mount point", "Type", "Total bytes", "Free bytes");
+
+    char dev[256], mnt[256], type[64], opts[256];
+    int dump, pass;
+
+    while (fscanf(f, "%255s %255s %63s %255s %d %d\n",
+                  dev, mnt, type, opts, &dump, &pass) == 6) {
+
+        struct statvfs vfs;
+        if (statvfs(mnt, &vfs) == 0) {
+            unsigned long long total = (unsigned long long)vfs.f_blocks * vfs.f_frsize;
+            unsigned long long free  = (unsigned long long)vfs.f_bfree  * vfs.f_frsize;
+            printf("%-25s %-10s %18llu %18llu\n", mnt, type, total, free);
+        }
+    }
+
+    fclose(f);
+}
 
 void print_system_info() {
     struct utsname u;
@@ -29,21 +73,8 @@ void print_system_info() {
         perror("gethostname");
     }
 
-    time_t now = time(NULL);
-    struct tm *lt = localtime(&now);
-    char buf[64];
-    if (lt && strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", lt)) {
-        printf("Local time: %s\n", buf);
-    }
-
-    struct statvfs vfs;
-    if (statvfs("/", &vfs) == 0) {
-        unsigned long long total = vfs.f_blocks * vfs.f_frsize;
-        unsigned long long free  = vfs.f_bfree  * vfs.f_frsize;
-        printf("Disk (/): total=%llu bytes, free=%llu bytes\n", total, free);
-    } else {
-        perror("statvfs");
-    }
+    print_times();
+    print_mount_points();
 }
 
 void list_directory(const char *path) {
@@ -126,6 +157,7 @@ void load_last_dir(char *buf, size_t sz) {
     char line[1024];
     if (fgets(line, sizeof(line), f)) {
         if (sscanf(line, "last_dir=%1023s", buf) == 1) {
+            // loaded
         }
     }
     fclose(f);
@@ -137,14 +169,14 @@ int main(int argc, char *argv[]) {
     char last_dir[1024] = {0};
     load_last_dir(last_dir, sizeof(last_dir));
     if (last_dir[0]) {
-        printf("Last viewed directory from config: %s\n", last_dir);
+        printf("\nLast viewed directory from config: %s\n", last_dir);
     }
 
     if (argc > 1) {
         list_directory(argv[1]);
         save_last_dir(argv[1]);
     } else {
-        printf("Usage: %s <directory>\n", argv[0]);
+        printf("\nUsage: %s <directory>\n", argv[0]);
     }
 
     return 0;
