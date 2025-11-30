@@ -1,30 +1,3 @@
-/*
- * sysinfo.c
- *
- * Practical Assignment 1 – Task 1
- * Operating Systems and System Programming
- *
- * Console application for Linux that:
- *  - Prints OS name and version
- *  - Prints computer (host) name
- *  - Prints current local time and system (UTC) time
- *  - Lists all mount points with total/free space
- *  - Accepts a directory path and lists its files/sub-folders with attributes
- *  - Stores and reloads the "last viewed directory" in a dotfile in $HOME
- *
- * If started with a directory argument:
- *      ./sysinfo /etc
- * the program runs in non-interactive "assignment mode".
- *
- * If started without arguments:
- *      ./sysinfo
- * the program opens a simple terminal menu (extra feature):
- *  1) show system info
- *  2) list a directory
- *  3) run an arbitrary shell command (mini terminal)
- *  4) quit
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
