@@ -12,8 +12,12 @@ Environment used:
 - GCC (GNU C compiler)
 - POSIX system calls and libraries
 
----
+----------------------------------------------------------------------------------
+Task 1
+----------------------------------------------------------------------------------
+Develop an application that displays for users the system information like the name and version of the operation system, computer name, the current system and local time, available logical drives, and their characteristics, etc.
 
+The user can select the drive or folder and see the list of the folders and files inside with their characteristics. The application should store some settings. 
 ## 1. Project Structure
 
 ```text
@@ -83,20 +87,70 @@ You will see a text menu:
 -Run a shell command (mini terminal)
 -Quit
 
+----------------------------------------------------------------------------------------------------------------------------
+Task 2 – Virtual Memory & Shared Library
+----------------------------------------------------------------------------------------------------------------------------
+Develop DLL to read and process a large file (>2GB). The file should be created by the student (the example is in the table below). The file must be loaded in parts into virtual memory and processed in parts. Register the DLL in the system in the way you choose and justify your choice.
 
-Task 2 – Virtual Memory & Shared Library (points.*, use_points.c)
+Examples of a data file
+
+Nr.
+File name
+File content
+Operation
+
+1.Coordinates.dat
+Text file. Each line is three integer numbers separated by spaces– the coordinates of the point x y z.
+Find the coordinates of the point that is farthest from the center of the coordinate system. Return the number of the line in the file.
+2. Develop an application that calls the developed DLL and demonstrates its work printing detailed information on the screen. Register the DLL in the system in the way you choose and justify your choice.
+
 
 Instructions:
-Create points.h :
--cd ~/os-assignment1/pa1
--nano points.h
+Create points.h 
+-nano points.h  (copy code from points.h)
 
 Create points.c
--nano points.c
+-nano points.c  (copy code from points.c)
+
+Create points.c
+-nano use_points.c  (copy code from use_points.c)
 
 Build the shared library
 -gcc -fPIC -c points.c
 -gcc -shared -o libpoints.so points.o
--ls   (libpoints.so in the directory. is displayed)
+-ls   (libpoints.so  points.c  points.h  points.o  points.txt  use_points  use_points.c in the pa1 directory is displayed)
+-ls -lh points.txt
+-ls -lh
+Data should be displayed:
+(ubuntu:~/os-assignment1/pa1$ ls -lh
+total 16M
+-rwxr-xr-x 1 root root  16K Dec  4 19:18 libpoints.so
+-rw-r--r-- 1 root root 3.6K Dec  4 19:17 points.c
+-rw-r--r-- 1 root root  450 Dec  4 19:16 points.h
+-rw-r--r-- 1 root root 4.0K Dec  4 19:18 points.o
+-rw-r--r-- 1 root root  16M Dec  4 19:21 points.txt
+-rwxr-xr-x 1 root root  16K Dec  4 19:22 use_points
+-rw-r--r-- 1 root root 1.5K Dec  4 19:17 use_points.c)
 
+- check that the format is correct:    head points.txt 
+Data should be displayed:
+(ubuntu:~/os-assignment1/pa1$ head  points.txt
+-7803 7560 3755
+-6040 5031 -8445
+8117 -5000 -9724
+7037 7596 -2123
+-231 3976 -2463
+-7705 3616 1218
+11 -3859 6355
+-1270 6445 9416
+-6562 7743 -1747
+3784 2449 -9372)
 
+- LD_LIBRARY_PATH=. ./use_points points.txt
+Data should be displayed:
+(Processing file: points.txt
+Farthest point found:
+  Line number: 418389
+  Coordinates: (-9962, -9995, 9970)
+  Distance^2 : 298542369)
+  
