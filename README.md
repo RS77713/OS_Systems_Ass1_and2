@@ -153,4 +153,7 @@ Farthest point found:
   Line number: 418389
   Coordinates: (-9962, -9995, 9970)
   Distance^2 : 298542369)
-  
+
+
+
+Assignment 2 Task 1
