@@ -1,12 +1,13 @@
 # Operating Systems and System Programming – Practical Assignment 1 (Task 1 & 2)
 
 This project contains my solutions for **Practical Assignment 1** of the course  
-**“Operating Systems and System Programming”**:
+“Operating Systems and System Programming”:
 
 - **Task 1:** File system and settings storage  
-- **Task 2:** Virtual memory and shared libraries
+- **Task 2:** Virtual memory and shared libraries (Linux `.so` loaded with `dlopen`)
 
 Environment used:
+
 - Ubuntu (Killercoda playground)
 - GCC (GNU C compiler)
 - POSIX system calls and libraries
@@ -19,14 +20,18 @@ Environment used:
 ~/os-assignment1/
 ├── pa1/          # Practical Assignment 1 – File system, VM, shared libs
 │   ├── sysinfo.c       # Task 1: system info, mount points, directory listing, settings
+│   ├── sysinfo         # compiled Task 1 binary (optional, can be rebuilt)
 │   ├── points.h        # Task 2: shared library header
 │   ├── points.c        # Task 2: shared library implementation (mmap)
+│   ├── points.o        # object file for libpoints.so (can be rebuilt)
 │   ├── libpoints.so    # Task 2: built shared library
 │   ├── use_points.c    # Task 2: runtime loader using dlopen/dlsym
+│   ├── use_points      # compiled Task 2 binary (optional, can be rebuilt)
 │   └── points.txt      # Task 2: generated test file with 3D points
-└── pa2/          # Practical Assignment 2 – Processes, IPC, Threads (not covered here)
+└── pa2/          # Practical Assignment 2 – Processes, IPC, Threads (not used in this assignment)
     ├── ipc.c
     └── threads.c
+
     
 # Instructions
 - Open terminal
