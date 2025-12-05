@@ -154,6 +154,3 @@ Farthest point found:
   Coordinates: (-9962, -9995, 9970)
   Distance^2 : 298542369)
 
-
-
-Assignment 2 Task 1
