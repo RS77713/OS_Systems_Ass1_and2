@@ -24,28 +24,23 @@ The user can select the drive or folder and see the list of the folders and file
 ~/os-assignment1/
 ├── pa1/          # Practical Assignment 1 – File system, VM, shared libs
 │   ├── sysinfo.c       # Task 1: system info, mount points, directory listing, settings
-│   ├── sysinfo         # compiled Task 1 binary (optional, can be rebuilt)
 │   ├── points.h        # Task 2: shared library header
 │   ├── points.c        # Task 2: shared library implementation (mmap)
 │   ├── points.o        # object file for libpoints.so (can be rebuilt)
 │   ├── libpoints.so    # Task 2: built shared library
-│   ├── use_points.c    # Task 2: runtime loader using dlopen/dlsym
-│   ├── use_points      # compiled Task 2 binary (optional, can be rebuilt)
+│   ├── use_points.c    # Task 2: runtime loader using dlopen/dlsym)
 │   └── points.txt      # Task 2: generated test file with 3D points
-└── pa2/          # Practical Assignment 2 – Processes, IPC, Threads (not used in this assignment)
-    ├── ipc.c
-    └── threads.c
-
     
+- Common terminal commands used:
+     mkdir – create directories
+     cd – change directory
+     nano – create/edit text files
+     gcc – compile C programs
+     ./program – run an executable in the current directory
+
+   
 # Instructions
 - Open terminal
-- Common terminal commands used:
-
-mkdir – create directories
-cd – change directory
-nano – create/edit text files
-gcc – compile C programs
-./program – run an executable in the current directory
 
 Steps:
     mkdir -p ~/os-assignment1
@@ -59,12 +54,10 @@ Steps:
    Exit: Ctrl+X
    gcc sysinfo.c -o sysinfo
 
-
-
 Usage – Non-interactive (assignment mode)
 To see OS info, hostname, time, disk info, and a directory listing:
    ./sysinfo .
-  ./sysinfo /etc
+   ./sysinfo /etc
 
 This will Print:
 
@@ -112,7 +105,7 @@ Create points.h
 Create points.c
 -nano points.c  (copy code from points.c)
 
-Create points.c
+Create use_points.c
 -nano use_points.c  (copy code from use_points.c)
 
 Build the shared library
@@ -132,7 +125,19 @@ total 16M
 -rwxr-xr-x 1 root root  16K Dec  4 19:22 use_points
 -rw-r--r-- 1 root root 1.5K Dec  4 19:17 use_points.c)
 
-- check that the format is correct:    head points.txt 
+-Create points.txt using the Python script from points.txt straight in the terminal:
+
+        python3 - << 'EOF'
+import random
+with open("points.txt", "w") as f:
+    for _ in range(1000000):   # 1 000 000 lines; increase if you want bigger file
+        x = random.randint(-10000, 10000)
+        y = random.randint(-10000, 10000)
+        z = random.randint(-10000, 10000)
+        f.write(f"{x} {y} {z}\n")
+EOF
+
+- Check that the format is correct:    head points.txt 
 Data should be displayed:
 (ubuntu:~/os-assignment1/pa1$ head  points.txt
 -7803 7560 3755
@@ -146,7 +151,9 @@ Data should be displayed:
 -6562 7743 -1747
 3784 2449 -9372)
 
+- Run next:
 - LD_LIBRARY_PATH=. ./use_points points.txt
+
 Data should be displayed:
 (Processing file: points.txt
 Farthest point found:
